@@ -1,19 +1,20 @@
 package com.testingpractice.duoclonebackend.commons.configuration
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-@EnableConfigurationProperties(CorsProps::class)
 open class WebConfig(
-    private val corsProps: CorsProps
+    @Value("\${FRONTEND_ORIGINS}") private val frontendOrigins: String
 ) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
+        val origins = frontendOrigins.split(",").map { it.trim() }.toTypedArray()
+        
         registry.addMapping("/**")
-            .allowedOrigins(*corsProps.origins.toTypedArray())
+            .allowedOrigins(*origins)
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true)
