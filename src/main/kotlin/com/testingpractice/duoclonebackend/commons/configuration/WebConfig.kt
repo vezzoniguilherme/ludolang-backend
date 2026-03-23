@@ -11,10 +11,10 @@ open class WebConfig(
 ) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
-        val origins = frontendOrigins.split(",").map { it.trim() }.toTypedArray()
+        val origins = frontendOrigins.split(",").map { it.trim().removeSuffix("/") }
         
         registry.addMapping("/**")
-            .allowedOrigins(*origins)
+            .allowedOriginPatterns("https://*.judokapro.com.br", "https://judokapro.com.br", "http://localhost:*", *origins.toTypedArray())
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
             .allowedHeaders("*")
             .allowCredentials(true)
