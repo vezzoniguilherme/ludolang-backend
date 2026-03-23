@@ -24,7 +24,12 @@ open class MonthlyChallengeService(
         val today = DateUtils.today(clock)
 
         val def = monthlyChallengeDefinitionRepository.findByActive(true)
-            ?: throw ApiException(ErrorCode.MONTHLY_CHALLENGE_NOT_FOUND)
+            ?: return QuestResponse(
+                code = "NO_CHALLENGE",
+                progress = 0,
+                total = 1000,
+                active = false
+            )
 
         userMonthlyChallengeRepository.upsertCreate(
             userId,
@@ -55,7 +60,7 @@ open class MonthlyChallengeService(
         val today = DateUtils.today(clock)
 
         val def = monthlyChallengeDefinitionRepository.findByActive(true)
-            ?: throw ApiException(ErrorCode.MONTHLY_CHALLENGE_NOT_FOUND)
+            ?: return
 
         userMonthlyChallengeRepository.upsertIncrement(
             userId,
