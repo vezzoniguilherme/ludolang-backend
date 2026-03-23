@@ -19,10 +19,7 @@ class AuthCookieService {
     @Value("\${auth.cookie.domain:localhost}")
     private lateinit var cookieDomain: String
 
-    @Value("\${auth.cookie.same-site:Lax}")
-    private lateinit var sameSite: String
-
-    @Value("\${auth.cookie.secure:false}")
+    private var sameSite: String = "None"
     private var secure: Boolean = true
 
     @Value("\${auth.cookie.max-age-seconds:86400}")
