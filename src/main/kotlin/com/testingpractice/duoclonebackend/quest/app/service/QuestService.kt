@@ -39,7 +39,7 @@ open class QuestService(
     open fun updateQuestProgress(userId: Int, questCode: QuestCode) {
         val questDefinition = questDefinitionRepository
             .findByCodeAndActiveTrue(questCode.name)
-            .orElseThrow { ApiException(ErrorCode.QUEST_NOT_FOUND) }
+            .orElse(null) ?: return
 
         val today = DateUtils.today(clock)
 
