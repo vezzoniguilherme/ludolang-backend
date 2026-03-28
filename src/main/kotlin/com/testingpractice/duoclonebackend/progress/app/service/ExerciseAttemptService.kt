@@ -30,6 +30,8 @@ open class ExerciseAttemptService(
         val lessonExercises = exerciseRepository.findAllByLessonId(lessonId)
         val exerciseIds = lessonExercises.mapNotNull { it.id }
 
+        if (exerciseIds.isEmpty()) return emptyList()
+
         return exerciseAttemptRepository
             .findAllByExerciseIdInAndUserIdAndUnchecked(exerciseIds, userId)
     }

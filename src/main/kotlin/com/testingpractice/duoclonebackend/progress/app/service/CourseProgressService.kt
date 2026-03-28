@@ -73,9 +73,9 @@ open class CourseProgressService(
             }
         }
 
-        if (!isCompleted && !isCurrentCourseLesson && !isCourseCompleted) {
+        if (!isCompleted && !isCurrentCourseLesson && !isCourseCompleted && currentProgressLessonId != null) {
             val currentCourseProgressLesson =
-                lookupService.lessonOrThrow(currentProgressLessonId!!)
+                lookupService.lessonOrThrow(currentProgressLessonId)
 
             val skippedLessons =
                 curriculumNavigator.getLessonsBetweenInclusive(
