@@ -1,3 +1,42 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS user_monthly_challenge;
+DROP TABLE IF EXISTS user_monthly_challenge_seq;
+DROP TABLE IF EXISTS user_daily_quest;
+DROP TABLE IF EXISTS user_daily_quest_seq;
+DROP TABLE IF EXISTS path_icons;
+DROP TABLE IF EXISTS path_icons_seq;
+DROP TABLE IF EXISTS follows;
+DROP TABLE IF EXISTS follows_seq;
+DROP TABLE IF EXISTS user_course_progress;
+DROP TABLE IF EXISTS user_course_progress_seq;
+DROP TABLE IF EXISTS lesson_completions;
+DROP TABLE IF EXISTS lesson_completions_seq;
+DROP TABLE IF EXISTS exercise_attempt_option;
+DROP TABLE IF EXISTS exercise_attempt_option_seq;
+DROP TABLE IF EXISTS exercise_attempts;
+DROP TABLE IF EXISTS exercise_attempts_seq;
+DROP TABLE IF EXISTS exercise_options;
+DROP TABLE IF EXISTS exercise_options_seq;
+DROP TABLE IF EXISTS exercises;
+DROP TABLE IF EXISTS exercises_seq;
+DROP TABLE IF EXISTS lessons;
+DROP TABLE IF EXISTS lessons_seq;
+DROP TABLE IF EXISTS units;
+DROP TABLE IF EXISTS units_seq;
+DROP TABLE IF EXISTS sections;
+DROP TABLE IF EXISTS sections_seq;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users_seq;
+DROP TABLE IF EXISTS quest_definition;
+DROP TABLE IF EXISTS quest_definition_seq;
+DROP TABLE IF EXISTS monthly_challenge_definition;
+DROP TABLE IF EXISTS monthly_challenge_definition_seq;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS course_seq;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
 create table course
 (
     id        int          not null
@@ -74,7 +113,7 @@ create table sections
             on delete cascade
 );
 
-create table ludoUnits
+create table units
 (
     id             int auto_increment
         primary key,
@@ -105,7 +144,7 @@ create table lessons
     constraint id_UNIQUE
         unique (id),
     constraint fk_lessons_unit
-        foreign key (unit_id) references ludoUnits (id)
+        foreign key (unit_id) references units (id)
             on delete cascade
 );
 
@@ -232,7 +271,7 @@ create table follows
         foreign key (follower_id) references users (id)
             on delete cascade,
     constraint chk_no_self_follow
-        check (`follower_id` <> `followed_id`)
+        check (follower_id <> followed_id)
 );
 
 create index idx_follows_followed
@@ -250,7 +289,7 @@ create table path_icons
         primary key,
     icon    varchar(255) not null,
     constraint fk_unit
-        foreign key (unit_id) references ludoUnits (id)
+        foreign key (unit_id) references units (id)
             on delete cascade
 );
 
@@ -272,18 +311,18 @@ create table user_daily_quest
 create index quest_def_id
     on user_daily_quest (quest_def_id);
 
-CREATE TABLE `user_monthly_challenge` (
-                                          `user_id` int NOT NULL,
-                                          `challenge_def_id` int NOT NULL,
-                                          `year` int NOT NULL,
-                                          `month` int NOT NULL,
-                                          `progress` int NOT NULL DEFAULT '0',
-                                          `completed_at` timestamp NULL DEFAULT NULL,
-                                          `reward_claimed` tinyint(1) NOT NULL DEFAULT '0',
-                                          PRIMARY KEY (`user_id`,`challenge_def_id`,`year`,`month`),
-                                          KEY `challenge_def_id` (`challenge_def_id`),
-                                          CONSTRAINT `user_monthly_challenge_ibfk_1` FOREIGN KEY (`challenge_def_id`) REFERENCES `monthly_challenge_definition` (`id`),
-                                          CONSTRAINT `user_monthly_challenge_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+CREATE TABLE user_monthly_challenge (
+    user_id int NOT NULL,
+    challenge_def_id int NOT NULL,
+    year int NOT NULL,
+    month int NOT NULL,
+    progress int NOT NULL DEFAULT '0',
+    completed_at timestamp NULL DEFAULT NULL,
+    reward_claimed tinyint(1) NOT NULL DEFAULT '0',
+    PRIMARY KEY (user_id,challenge_def_id,year,month),
+    KEY challenge_def_id (challenge_def_id),
+    CONSTRAINT user_monthly_challenge_ibfk_1 FOREIGN KEY (challenge_def_id) REFERENCES monthly_challenge_definition (id),
+    CONSTRAINT user_monthly_challenge_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO course (id, image_src, title) VALUES (1, 'https://d35aaqx5ub95lt.cloudfront.net/images/borderlessFlags/7488bd7cd28b768ec2469847a5bc831e.svg', 'FRENCH');

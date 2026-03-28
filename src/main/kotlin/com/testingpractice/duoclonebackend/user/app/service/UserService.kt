@@ -58,10 +58,13 @@ open class UserService(
             totalLessonCount = 0
         }
 
-        val lessonSectionId =
-            courseProgressService.getLessonSectionId(
-                userCourseProgress.currentLessonId ?: throw ApiException(ErrorCode.LESSON_NOT_FOUND, "There was an error finding the first lesson of the selected course: $courseId")
+        var lessonSectionId: Int? = null
+
+        if (userCourseProgress.currentLessonId != null) {
+            lessonSectionId = courseProgressService.getLessonSectionId(
+                userCourseProgress.currentLessonId!!
             )
+        }
 
         return userCourseProgressMapper.toDto(
             userCourseProgress,

@@ -60,21 +60,21 @@ open class CourseService(
         )
     }
 
-    fun getFirstLessonIdOfCourse(courseId: Int): Int {
+    fun getFirstLessonIdOfCourse(courseId: Int): Int? {
         val course = lookupService.courseOrThrow(courseId)
 
         val section =
             sectionRepository.findFirstByCourseIdOrderByOrderIndexAsc(course.id!!)
-                ?: throw ApiException(ErrorCode.SECTION_NOT_FOUND)
+                ?: return null
 
         val firstUnit =
             unitRepository.findFirstBySectionIdOrderByOrderIndexAsc(section.id!!)
-                ?: throw ApiException(ErrorCode.SECTION_NOT_FOUND)
+                ?: return null
 
         val firstLesson =
             lessonRepository.findFirstByUnitIdOrderByOrderIndexAsc(firstUnit.id!!)
-                ?: throw ApiException(ErrorCode.UNIT_NOT_FOUND)
+                ?: return null
 
-        return firstLesson.id!!
+        return firstLesson.id
     }
 }
