@@ -77,7 +77,7 @@ open class UserService(
     open fun getUser(userId: Int): UserResponse {
         val optionalUser = userRepository.findById(userId)
 
-        if (optionalUser.isEmpty) {
+        if (!optionalUser.isPresent) {
             throw ApiException(ErrorCode.USER_NOT_FOUND)
         }
 
@@ -93,9 +93,9 @@ open class UserService(
             return emptyList()
         }
 
-        return userRepository.findAllById(userIds)
-            .onEach { potentiallyResetStreak(it) }
-            .map { userMapper.toUserResponse(it) }
+        val users = userRepository.findAllById(userIds)
+        users.forEach { potentiallyResetStreak(it) }
+        return users.map { userMapper.toUserResponse(it) }
     }
 
     @Transactional

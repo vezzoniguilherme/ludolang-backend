@@ -120,14 +120,12 @@ open class ExerciseAttemptService(
         optionIds: ArrayList<Int>
     ): List<AttemptOption> {
 
-        return IntStream.range(0, optionIds.size)
-            .mapToObj { i ->
-                val attemptOption = AttemptOption()
-                attemptOption.attemptId = attempt.id
-                attemptOption.optionId = optionIds[i]
-                attemptOption.position = i + 1
-                attemptOption
-            }
-            .toList()
+        return (0 until optionIds.size).map { i ->
+            val attemptOption = AttemptOption()
+            attemptOption.attemptId = attempt.id
+            attemptOption.optionId = optionIds[i]
+            attemptOption.position = i + 1
+            attemptOption
+        }
     }
 }

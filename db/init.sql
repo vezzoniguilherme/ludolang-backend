@@ -235,7 +235,7 @@ create table user_course_progress
         primary key,
     user_id           int                                  not null,
     course_id         int                                  not null,
-    current_lesson_id int                                  not null,
+    current_lesson_id int                                  null,
     updated_at        timestamp  default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     is_complete       tinyint(1) default 0                 not null,
     constraint user_course_progress_ibfk_1
