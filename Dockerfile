@@ -2,7 +2,7 @@ FROM maven:3.9-eclipse-temurin-21 AS builder
 WORKDIR /app
 
 COPY pom.xml .
-RUN MAVEN_OPTS="-Xmx400m -XX:MaxMetaspaceSize=200m" mvn -q dependency:go-offline
+RUN MAVEN_OPTS="-Xmx400m -XX:MaxMetaspaceSize=200m" mvn -q dependency:go-offline -Dmaven.test.skip=true
 
 COPY src ./src
 RUN MAVEN_OPTS="-Xmx400m -XX:MaxMetaspaceSize=200m -XX:+TieredCompilation -XX:TieredStopAtLevel=1" mvn clean package -DskipTests
