@@ -14,8 +14,8 @@ import com.testingpractice.duoclonebackend.progress.infra.repository.UserCourseP
 import com.testingpractice.duoclonebackend.user.domain.entity.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
 import java.time.Instant
+
 
 @Service
 open class CourseProgressService(
@@ -50,7 +50,7 @@ open class CourseProgressService(
             newProgress.courseId = courseId
             newProgress.isComplete = false
             newProgress.currentLessonId = currentLesson.id
-            newProgress.updatedAt = Timestamp.from(Instant.now())
+            newProgress.updatedAt = Instant.now()
             userCourseProgressRepository.save(newProgress)
             userCourseProgress = newProgress
         }
@@ -95,7 +95,7 @@ open class CourseProgressService(
                     userId
                 )
 
-            val now = Timestamp.from(Instant.now())
+            val now = Instant.now()
 
             for (skippedLesson in skippedLessons) {
                 if (skippedLesson.id != currentLesson.id) {

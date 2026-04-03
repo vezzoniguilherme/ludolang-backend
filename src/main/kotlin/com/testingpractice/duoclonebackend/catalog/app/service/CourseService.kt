@@ -14,8 +14,8 @@ import com.testingpractice.duoclonebackend.progress.infra.repository.UserCourseP
 import com.testingpractice.duoclonebackend.user.app.mapper.UserMapper
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.sql.Timestamp
 import java.time.Instant
+
 
 @Service
 open class CourseService(
@@ -46,7 +46,7 @@ open class CourseService(
             newProgress.courseId = newCourseId
             newProgress.isComplete = false
             newProgress.currentLessonId = getFirstLessonIdOfCourse(newCourseId)
-            newProgress.updatedAt = Timestamp.from(Instant.now())
+            newProgress.updatedAt = Instant.now()
             userCourseProgressRepository.save(newProgress)
         }
 

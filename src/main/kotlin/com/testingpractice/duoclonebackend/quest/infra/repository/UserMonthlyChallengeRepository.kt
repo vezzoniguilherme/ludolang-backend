@@ -16,7 +16,7 @@ interface UserMonthlyChallengeRepository :
         INSERT INTO user_monthly_challenge
           (user_id, challenge_def_id, year, month, progress, reward_claimed, completed_at)
         VALUES (:userId, :defId, :year, :month, 0, false, NULL)
-        ON DUPLICATE KEY UPDATE user_id = user_id
+        ON CONFLICT (user_id, challenge_def_id, year, month) DO NOTHING
         """,
         nativeQuery = true
     )
@@ -33,7 +33,7 @@ interface UserMonthlyChallengeRepository :
         INSERT INTO user_monthly_challenge
           (user_id, challenge_def_id, year, month, progress, reward_claimed, completed_at)
         VALUES (:userId, :defId, :year, :month, :delta, false, NULL)
-        ON DUPLICATE KEY UPDATE progress = progress + :delta
+        ON CONFLICT (user_id, challenge_def_id, year, month) DO UPDATE SET progress = user_monthly_challenge.progress + :delta
         """,
         nativeQuery = true
     )

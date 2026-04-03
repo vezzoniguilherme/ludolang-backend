@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
-import java.sql.Timestamp
+import java.time.Instant
 import java.util.Collection
 
 interface LessonCompletionRepository :
@@ -33,9 +33,10 @@ interface LessonCompletionRepository :
     @Modifying
     @Query(
         value = """
-            INSERT IGNORE INTO lesson_completions
+            INSERT INTO lesson_completions
               (user_id, lesson_id, course_id, score, completed_at)
             VALUES (:userId, :lessonId, :courseId, :score, :completedAt)
+            ON CONFLICT DO NOTHING
         """,
         nativeQuery = true
     )
@@ -44,7 +45,7 @@ interface LessonCompletionRepository :
         @Param("lessonId") lessonId: Int,
         @Param("courseId") courseId: Int,
         @Param("score") score: Int,
-        @Param("completedAt") completedAt: Timestamp
+        @Param("completedAt") completedAt: Instant
     ): Int
 
     @Query(
@@ -59,4 +60,4 @@ interface LessonCompletionRepository :
         @Param("userId") userId: Int,
         @Param("courseId") courseId: Int
     ): Int
-}
+}

@@ -16,8 +16,8 @@ import com.testingpractice.duoclonebackend.user.domain.entity.User
 import com.testingpractice.duoclonebackend.user.infra.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
 import java.time.Instant
+
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -45,7 +45,7 @@ open class UserService(
             newProgress.isComplete = false
             newProgress.currentLessonId =
                 courseService.getFirstLessonIdOfCourse(courseId)
-            newProgress.updatedAt = Timestamp.from(Instant.now())
+            newProgress.updatedAt = Instant.now()
 
             userCourseProgressRepository.save(newProgress)
             userCourseProgress = newProgress

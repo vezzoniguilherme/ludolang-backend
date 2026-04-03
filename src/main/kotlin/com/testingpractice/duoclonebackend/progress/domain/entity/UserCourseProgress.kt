@@ -1,7 +1,8 @@
 package com.testingpractice.duoclonebackend.progress.domain.entity
 
 import jakarta.persistence.*
-import java.sql.Timestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.Instant
 
 @Entity
 @Table(name = "user_course_progress")
@@ -23,9 +24,7 @@ class UserCourseProgress(
     @Column(name = "current_lesson_id")
     var currentLessonId: Int? = null,
 
-    @Column(
-        name = "updated_at",
-        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-    )
-    var updatedAt: Timestamp? = null
-)
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    var updatedAt: Instant? = null
+)

@@ -26,7 +26,7 @@ interface UserDailyQuestRepository :
         value = """
         INSERT INTO user_daily_quest (user_id, quest_def_id, date, progress, reward_claimed)
         VALUES (?1, ?2, ?3, 0, false)
-        ON DUPLICATE KEY UPDATE user_id = user_id
+        ON CONFLICT (user_id, quest_def_id, date) DO NOTHING
         """,
         nativeQuery = true
     )
