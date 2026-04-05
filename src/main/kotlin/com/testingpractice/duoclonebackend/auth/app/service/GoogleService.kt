@@ -45,6 +45,6 @@ open class GoogleService(
         // 5) Set cookie
         authCookieService.setJwt(response, jwt, DAY)
 
-        return userMapper.toUserResponse(user)
+        return userMapper.toUserResponse(user).copy(jwtToken = jwt)
     }
 }

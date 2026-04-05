@@ -11,5 +11,6 @@ data class UserResponse(
     val pfpSrc: String?,
     val points: Int,
     val streakLength: Int,
-    val createdAt: Timestamp
+    val createdAt: Timestamp,
+    val jwtToken: String? = null
 )

@@ -38,6 +38,11 @@ class AuthCookieService {
     }
 
     fun readJwt(request: HttpServletRequest): String? {
+        val authHeader = request.getHeader("Authorization")
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7)
+        }
+
         val cookies: Array<Cookie>? = request.cookies ?: return null
         if (cookies != null) {
             for (c in cookies) {
