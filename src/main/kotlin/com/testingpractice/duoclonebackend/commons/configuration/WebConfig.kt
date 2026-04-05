@@ -21,7 +21,7 @@ open class WebConfig(
         
         configuration.allowedOriginPatterns = listOf("https://*.judokapro.com.br", "https://judokapro.com.br", "http://localhost:*", *origins)
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        configuration.allowedHeaders = listOf("*")
+        configuration.allowedHeaders = listOf("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers")
         configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
